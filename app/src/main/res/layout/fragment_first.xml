@@ -1,0 +1,170 @@
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.techeducation.groupmanager.FirstFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event Title"
+        android:textAllCaps="true"
+        android:textSize="@dimen/textPostEvent"
+        android:textColor="@color/colorTextEvent"
+        />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:padding="7dp"
+        android:background="@drawable/event_desc_border"
+        android:hint="A Short distinct name"
+        android:layout_marginTop="6dp"
+       />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Venue"
+        android:textAllCaps="true"
+        android:textSize="@dimen/textPostEvent"
+        android:textColor="@color/colorTextEvent"
+        />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:padding="7dp"
+        android:background="@drawable/event_desc_border"
+        android:hint="Where it's held?"
+        android:layout_marginTop="6dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Date"
+        android:textAllCaps="true"
+        android:textSize="@dimen/textPostEvent"
+        android:textColor="@color/colorTextEvent"
+        />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/event_desc_border"
+        android:weightSum="1">
+
+       <TableRow>
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:padding="7dp"
+            android:textSize="@dimen/textPostEvent"
+            android:text="13-12-1995"/>
+        <Button
+            android:id="@+id/btnChooseDate"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:gravity="center"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_gravity="center"
+            android:background="@drawable/calendar1"/>
+       </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Time"
+        android:textAllCaps="true"
+        android:textSize="@dimen/textPostEvent"
+        android:textColor="@color/colorTextEvent"
+        />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/event_desc_border"
+        android:weightSum="1">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:padding="7dp"
+                android:textSize="@dimen/textPostEvent"
+                />
+            <Button
+                android:id="@+id/btnChooseTime"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:layout_marginEnd="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_gravity="center"
+                android:background="@drawable/alarm1"/>
+        </TableRow>
+    </TableLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event Description"
+        android:textAllCaps="true"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/textPostEvent"
+        android:textColor="@color/colorTextEvent"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:padding="7dp"
+        android:inputType="textMultiLine"
+        android:background="@drawable/event_desc_border"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="POST"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/post_button_design"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        />
+
+
+</LinearLayout>
+
+    </ScrollView>
