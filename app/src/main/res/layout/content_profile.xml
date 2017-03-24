@@ -23,13 +23,50 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Personal Information"
                     android:layout_margin="10dp"
                     android:textSize="18sp"
+                    android:padding="10dp"
+                    android:layout_weight="0.9"
                     />
+                  <ToggleButton
+                      android:layout_width="wrap_content"
+                      android:layout_height="40dp"
+                      android:textOff="Suspend"
+                      android:textOn="Suspended"
+                      android:textColor="@android:color/white"
+                      android:background="@drawable/toggle_drawable"
+                      android:layout_gravity="center"
+                      android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/user23"
+                        android:layout_weight="0.2"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/username"
+                        android:textSize="16dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="0.8"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -45,7 +82,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="sample@id.com"
+                        android:id="@+id/email"
                         android:textSize="16dp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
@@ -65,7 +102,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4532176890"
+                        android:id="@+id/phone"
                         android:textSize="16dp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
@@ -85,7 +122,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="sample@id.com"
+                        android:id="@+id/skype"
                         android:textSize="16dp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
@@ -106,7 +143,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="sample@id.com"
+                        android:id="@+id/github"
                         android:textSize="16dp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
@@ -131,10 +168,17 @@
                     android:layout_margin="10dp"
                     android:text="Technologies Known"
                     android:textSize="18sp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/supportColor"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="vertical"
                     android:id="@+id/LLTechKnown">
 
@@ -159,10 +203,17 @@
                     android:layout_margin="10dp"
                     android:text="Languages Known"
                     android:textSize="18sp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/supportColor"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="vertical"
                     android:id="@+id/LLLangKnown">
 
@@ -188,10 +239,17 @@
                     android:layout_margin="10dp"
                     android:text="Project Details"
                     android:textSize="18sp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/supportColor"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="vertical"
                     android:id="@+id/LLProjDetails">
 
@@ -200,5 +258,114 @@
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Other"
+                    android:textSize="18sp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/supportColor"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Branch"
+                       android:layout_weight="0.1"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/branch"
+                        android:text="Branch name"
+                        android:layout_weight="0.9"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Year  "
+                        android:layout_weight="0.1"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/year"
+                        android:text="year"
+                        android:layout_weight="0.9"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_margin="8dp"
+                        android:text="Are you a dayscholar?"
+                        android:layout_weight="0.5"
+                        />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="0.5"
+                        android:id="@+id/radioGrpDaySch"
+                        android:weightSum="1">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yes"
+                            android:buttonTint="@color/colorAccent"
+                            android:id="@+id/DaySchYes"
+                            android:layout_weight="0.5"
+                            />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No"
+                            android:buttonTint="@color/colorAccent"
+                            android:id="@+id/DaySchNo"
+                            android:layout_weight="0.5"
+                            />
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

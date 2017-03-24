@@ -1,5 +1,6 @@
 package com.techeducation.groupmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -79,15 +80,37 @@ public class AdminActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         menu.add(Menu.NONE, 1 , Menu.NONE,"Add Users");
+        menu.add(Menu.NONE, 2 , Menu.NONE,"View Profile");
+        menu.add(Menu.NONE, 3 , Menu.NONE,"Logout");
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==ADD_USERS_ID){
-            Toast.makeText(this,"add "+ADD_USERS_ID,Toast.LENGTH_LONG).show();
+        if(item.getItemId()==1){
+            Toast.makeText(this,"add "+1,Toast.LENGTH_LONG).show();
+        }
+        else if(item.getItemId()==2){
+            Intent i = new Intent(AdminActivity.this,ProfileActivity.class);
+            startActivity(i);
+        }
+        else if(item.getItemId()==3){
+            UserSessionManager session;
+            session=new UserSessionManager(getApplicationContext());
+            session.logoutUser();
+            finish();
         }
         return true;
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        System.exit(0);
     }
 }

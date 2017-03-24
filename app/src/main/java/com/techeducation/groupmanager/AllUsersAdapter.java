@@ -27,12 +27,12 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
 
     //MyViewHolders initializes the views in listIte
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        RoundedImageView profileImg;
+        //RoundedImageView profileImg;
         TextView txtName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            profileImg=(RoundedImageView)itemView.findViewById(R.id.prPhotoAll);
+           // profileImg=(RoundedImageView)itemView.findViewById(R.id.prPhotoAll);
             txtName=(TextView)itemView.findViewById(R.id.txtNameAll);
         }
     }
@@ -54,8 +54,8 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         AllUsersBean allUsersBean = allUsersBeenList.get(position);
-        holder.profileImg.setImageResource(allUsersBean.getProfilePhoto());
-        holder.txtName.setText(allUsersBean.getName());
+       // holder.profileImg.setImageResource(allUsersBean.getProfilePhoto());
+        holder.txtName.setText(allUsersBean.getusername());
     }
 
     //Get size of List
@@ -72,7 +72,7 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
         }
         else{
             for(AllUsersBean object : tempList){
-                if(object.getName().toLowerCase().startsWith(str.toLowerCase())){
+                if(object.getusername().toLowerCase().startsWith(str.toLowerCase())){
                     allUsersBeenList.add(object);
                 }
             }
