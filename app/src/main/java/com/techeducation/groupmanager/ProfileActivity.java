@@ -54,7 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
         rbDayScYes = (RadioButton)findViewById(R.id.DaySchYes);
         rbDayScNo = (RadioButton)findViewById(R.id.DaySchNo);
 
-
         handler.sendEmptyMessage(100);
     }
 

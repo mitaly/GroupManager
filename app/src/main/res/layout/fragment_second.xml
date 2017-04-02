@@ -26,6 +26,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:text="Event Name"
+                            android:id="@+id/txtEvntName"
                             android:padding="8dp"
                             android:textSize="@dimen/textPostEvent"
                             android:background="@color/colorAccent"
@@ -39,6 +40,7 @@
                             android:layout_width="0dp"
                             android:textColor="@color/colorTextEventList"
                             android:text="Date"
+                            android:id="@+id/txtEvntDate"
                             android:padding="8dp"
                             android:textSize="@dimen/textPostEvent"
                             />
@@ -49,6 +51,7 @@
                             android:layout_weight="0.5"
                             android:textColor="@color/colorTextEventList"
                             android:text="Time"
+                            android:id="@+id/txtEvntTime"
                             android:padding="8dp"
                             android:textSize="@dimen/textPostEvent"
                             />
@@ -68,6 +71,26 @@
                             android:layout_span="4"
                             android:padding="8dp"
                             android:textSize="@dimen/textPostEvent"
+                            android:id="@+id/txtEvntVenue"
+                            android:textColor="@color/colorTextEventList"
+                            android:text="Event's Venue"
+                            />
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <View android:layout_height="1dp"
+                            android:layout_width="300dp"
+                            android:padding="5dp"
+                            android:background="@color/supportColor"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent">
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_span="4"
+                            android:padding="8dp"
+                            android:textSize="@dimen/textPostEvent"
+                            android:id="@+id/txtEvntDesc"
                             android:textColor="@color/colorTextEventList"
                             android:text="This is Event description.."
                             />

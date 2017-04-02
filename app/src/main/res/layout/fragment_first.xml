@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:padding="7dp"
+        android:id="@+id/evntName"
         android:background="@drawable/event_desc_border"
         android:hint="A Short distinct name"
         android:layout_marginTop="6dp"
@@ -53,6 +54,7 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:padding="7dp"
+        android:id="@+id/evntVenue"
         android:background="@drawable/event_desc_border"
         android:hint="Where it's held?"
         android:layout_marginTop="6dp"
@@ -148,6 +150,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:padding="7dp"
+        android:id="@+id/evntDesc"
         android:inputType="textMultiLine"
         android:background="@drawable/event_desc_border"
         />
@@ -157,6 +160,7 @@
         android:layout_height="wrap_content"
         android:text="POST"
         android:textColor="@android:color/white"
+        android:id="@+id/btnPost"
         android:layout_marginTop="20dp"
         android:background="@drawable/post_button_design"/>
     <View

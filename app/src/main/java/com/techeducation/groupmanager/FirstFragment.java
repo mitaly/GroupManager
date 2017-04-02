@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -23,6 +24,9 @@ import java.util.Calendar;
 public class FirstFragment extends Fragment{
     Button btnChooseDate,btnChooseTime;
     TextView txtDate,txtTime;
+    EditText etxtTitle, etxtVenue, etxtDesc;
+    Button btnpost;
+    String evntTitle, evntVenue, evntDesc, evntDate, evntTime;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -36,6 +40,10 @@ public class FirstFragment extends Fragment{
         btnChooseDate=(Button)view.findViewById(R.id.btnChooseDate);
         btnChooseTime=(Button)view.findViewById(R.id.btnChooseTime);
         txtTime=(TextView)view.findViewById(R.id.txtTime);
+        etxtTitle = (EditText)view.findViewById(R.id.evntName);
+        etxtVenue = (EditText)view.findViewById(R.id.evntVenue);
+        etxtDesc = (EditText)view.findViewById(R.id.evntDesc);
+        btnpost = (Button)view.findViewById(R.id.btnPost);
 
         initTimeAndDate();
 
@@ -49,6 +57,17 @@ public class FirstFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 showDatePicker();
+            }
+        });
+        btnpost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                evntTitle = etxtTitle.getText().toString().trim();
+                evntVenue = etxtVenue.getText().toString().trim();
+                evntDesc = etxtDesc.getText().toString().trim();
+                evntDate = txtDate.getText().toString().trim();
+                evntTime = txtTime.getText().toString().trim();
+
             }
         });
         return view;
