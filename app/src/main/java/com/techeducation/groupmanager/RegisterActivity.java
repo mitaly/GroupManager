@@ -440,7 +440,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            String username, password, email, phone, skype, github, branch;
+            final String username, password, email, phone, skype, github, branch;
             int year = 0, daysch = 0;
             boolean flag = true;
 
@@ -658,6 +658,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 case 0:
                                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(RegisterActivity.this, StudentPanelActivity.class);
+                                    UserSessionManager session = new UserSessionManager(RegisterActivity.this);
+                                    session.createLoginSession(email,password,3,jsonObject.getInt("user_id"));
                                     startActivity(i);
                                     finish();
                                     break;
@@ -692,4 +694,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
     };
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
 }

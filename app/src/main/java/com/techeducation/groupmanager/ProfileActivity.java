@@ -1,5 +1,7 @@
+
 package com.techeducation.groupmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,12 +36,17 @@ import org.w3c.dom.Text;
 public class ProfileActivity extends AppCompatActivity {
 
     LinearLayout LLTechKnown,LLLangKnown, LLProjDetails;
-    int user_id_other;
+    int user_id_other,user_id;
     TextView username,email,phone,skype,github,branch,year;
     RadioGroup radioGrpDaySch;
     RadioButton rbDayScYes,rbDayScNo;
+    ToggleButton toggleSuspend;
 
     void initViews() {
+        user_id = StartActivity.user_id;
+        Intent rcv = getIntent();
+        user_id_other = rcv.getIntExtra("keyUserId",0);
+
         LLTechKnown = (LinearLayout)findViewById(R.id.LLTechKnown);
         LLLangKnown = (LinearLayout)findViewById(R.id.LLLangKnown);
         LLProjDetails = (LinearLayout)findViewById(R.id.LLProjDetails);
@@ -54,8 +62,23 @@ public class ProfileActivity extends AppCompatActivity {
         rbDayScYes = (RadioButton)findViewById(R.id.DaySchYes);
         rbDayScNo = (RadioButton)findViewById(R.id.DaySchNo);
 
-
         handler.sendEmptyMessage(100);
+
+        //if admin only then can edit profile
+        if(user_id==1){
+            toggleSuspend = (ToggleButton)findViewById(R.id.toggleSuspend);
+            toggleSuspend.setVisibility(View.VISIBLE);
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabEditProfile);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
     }
 
     @Override
@@ -68,38 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         initViews();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
-
-
-//        String TechnArr[] = {"Android", "PHP", "Artificial Intelligence"};
-//        String LangArr[] = {"Java", "C++", "Python"};
-//        String ProjDetails[] = {"Tech-Reveal", "Imagica", "Groupmanager"};
-//
-//        for(int i = 0; i < 3; i++) {
-//
-//        }
-//
-//        for(int i = 0; i < 3; i++) {
-//
-//        }
-//
-//        for(int i = 0; i < 3; i++) {
-//            LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            TextView textView = new TextView(this);
-//            textView.setLayoutParams(lparams);
-//            textView.setText(ProjDetails[i]);
-//            textView.setTextSize(16);
-//            lparams.setMargins(20,8,8,8);
-//            this.LLProjDetails.addView(textView);
-//        }
     }
 
     Handler handler = new Handler(){
@@ -107,7 +99,13 @@ public class ProfileActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("user_id",StartActivity.user_id);
+                if(user_id_other==0){
+                    jsonObject.put("user_id",StartActivity.user_id);
+                }
+                else{
+                    jsonObject.put("user_id",user_id_other);
+                }
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -118,58 +116,61 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            Log.i("show",jsonObject.toString());
+//                            Log.i("show",jsonObject.toString());
                             JSONObject profileObject = jsonObject.getJSONObject("profile");
-                            Log.i("show",profileObject.toString());
+//                            Log.i("show",profileObject.toString());
                             JSONObject userPersonalInfo = profileObject.getJSONObject("user_personal");
                             String username1 = userPersonalInfo.getString("username");
                             String email1 = userPersonalInfo.getString("email");
                             String phone1 = userPersonalInfo.getString("phone_no");
                             String skype1 = userPersonalInfo.getString("skype_id");
                             String github1 = userPersonalInfo.getString("github");
-                            Log.i("show","username: "+username1+" email: "+email1+" phone1: "+phone1+" skyype: "+skype1+" github: "+github1);
+//                            Log.i("show","username: "+username1+" email: "+email1+" phone1: "+phone1+" skyype: "+skype1+" github: "+github1);
                             username.setText(username1);
                             email.setText(email1);
                             phone.setText(phone1);
                             skype.setText(skype1);
                             github.setText(github1);
 
+                            branch.setText(userPersonalInfo.getString("branch"));
+                            year.setText(userPersonalInfo.getString("year"));
+                            if(userPersonalInfo.getInt("dayscholar")==1){
+                                rbDayScYes.setChecked(true);
+                            }
+                            else{
+                                rbDayScNo.setChecked(true);
+                            }
 
                             JSONArray languageArray = profileObject.getJSONArray("languages");
                             JSONArray technologiesArray = profileObject.getJSONArray("technologies");
 
-                            Log.i("show","Languges: "+languageArray);
-                            Log.i("show","Technologies: "+technologiesArray);
+//                            Log.i("show","Languges: "+languageArray);
+//                            Log.i("show","Technologies: "+technologiesArray);
                             for(int i=0;i<languageArray.length();i++){
-//                                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                                 TextView textView = new TextView(getApplicationContext());
-//                                textView.setLayoutParams(lparams);
                                 textView.setText(languageArray.getString(i));
                                 textView.setTextSize(16);
                                 textView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-//                                lparams.setMargins(20,8,8,8);
                                 LLLangKnown.addView(textView);
                             }
 
                             for(int i=0;i<technologiesArray.length();i++){
-//                                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
                                 TextView textView = new TextView(getApplicationContext());
-//                                textView.setLayoutParams(lparams);
                                 textView.setText(technologiesArray.getString(i));
                                 textView.setTextSize(16);
                                 textView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-//                                lparams.setMargins(20,8,8,8);
                                 LLTechKnown.addView(textView);
                             }
 
 
                             JSONArray projectsArray = profileObject.getJSONArray("projects");
-                            Log.i("show",projectsArray.toString());
+//                            Log.i("show",projectsArray.toString());
                             for(int i=0;i<projectsArray.length();i++){
                                 JSONObject projectObject = (JSONObject) projectsArray.get(i);
-                                Log.i("show",projectObject.toString());
-                                Log.i("show","inside projects");
-                                Log.i("show","Details before: "+projectObject.getString("proj_title"));
+//                                Log.i("show",projectObject.toString());
+//                                Log.i("show","inside projects");
+//                                Log.i("show","Details before: "+projectObject.getString("proj_title"));
 
                                 LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
                                 LinearLayout llProjectTitle = new LinearLayout(getApplicationContext());

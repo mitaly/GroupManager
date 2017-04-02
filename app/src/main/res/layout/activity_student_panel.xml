@@ -31,16 +31,22 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:padding="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="User Stats : 19"
+                        android:text="User Stats :"
                         android:textSize="20sp"
                         android:layout_margin="10dp"
                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userStats"
+                        android:textSize="20sp"
+                        android:layout_margin="10dp" />
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -114,22 +120,32 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtViewRecentUsers"
                 android:layout_margin="10dp"
                 android:textSize="17dp"
                 android:text="Recent Users"/>
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/cardRecentUsers"
                 android:layout_margin="10dp">
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/recyclerAllUsers"
+                    android:id="@+id/recyclerRecentUsers"
                     android:scrollbars="vertical">
 
                 </android.support.v7.widget.RecyclerView>
             </android.support.v7.widget.CardView>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnViewUsers"
+                android:text="View Users"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/post_button_design"/>
         </LinearLayout>
 
     </ScrollView>
