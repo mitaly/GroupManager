@@ -1,28 +1,20 @@
 package com.techeducation.groupmanager;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,34 +24,27 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    int callingActivity;
+    int user_id;
     JSONArray arrayTech, arrayLang, arrayProjects;
-    JSONObject objProjects, jsonRequestObject;
+    JSONObject objProjects, jsonRequestObject, jsonProfileData;
     ImageView imgArrow;
     RadioGroup rGrpYear, rGrpSchHost;
-    RadioButton rbYear, rbDayHost;
     Button btnRegister;
     EditText eTxtTech, eTxtName, eTxtEmail, eTxtPhone, eTxtSkype, eTxtGithub, eTxtLang, eTxtProjTitle, eTxtProjURL, eTxtPassword;
     ImageButton btnAddTech, btnAddLang, btnAddProj;
@@ -70,7 +55,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<LinearLayout> listRefTechLinLayout, listRefLangLinLayout, listRefProjTitleLinLayout;
     static int idTech, idLang, idProj;
 
-    void initViews() {
+    String[] branches;
+    ArrayAdapter<String> dataAdapter;
+
+    void initViews() throws JSONException {
         eTxtName = (EditText) findViewById(R.id.eTxtName);
         eTxtEmail = (EditText) findViewById(R.id.eTxtEmail);
         eTxtPhone = (EditText) findViewById(R.id.eTxtPhone);
@@ -125,20 +113,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         setSpinnerBranch();
 
-//        rGrpYear.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-//                rbYear = (RadioButton) findViewById(group.getCheckedRadioButtonId());
-//            }
-//        });
-//
-//        rGrpSchHost.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-//                rbDayHost = (RadioButton) findViewById(group.getCheckedRadioButtonId());
-//            }
-//        });
+        Intent i =getIntent();
+        callingActivity = i.getIntExtra("callingActivity",0);
+        //Profile Activity is calling Register Activity
+        if(callingActivity==102){
+            setTitle("Update Profile");
+            user_id = i.getIntExtra("user_id",0);
 
+            jsonProfileData = new JSONObject(i.getStringExtra("jsonObjectProfileData"));
+            initData();
+        }
+
+        Log.i("show","user id is: "+user_id);
 
         btnAddTech.setOnClickListener(this);
 
@@ -148,25 +134,268 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         btnRegister.setOnClickListener(this);
     }
+    void initData() throws JSONException {
+        btnRegister.setText("SAVE");
+        eTxtPassword.setVisibility(View.GONE);
+        JSONObject userPersonalInfo = jsonProfileData.getJSONObject("user_personal");
+        String username1 = userPersonalInfo.getString("username");
+        String email1 = userPersonalInfo.getString("email");
+        String phone1 = userPersonalInfo.getString("phone_no");
+        String skype1 = userPersonalInfo.getString("skype_id");
+        String github1 = userPersonalInfo.getString("github");
+
+        eTxtName.setText(username1);
+        eTxtEmail.setText(email1);
+        eTxtPhone.setText(phone1);
+        eTxtSkype.setText(skype1);
+        eTxtGithub.setText(github1);
+
+
+        if(userPersonalInfo.getString("branch")!=null){
+            //compare branch value to values in dataAdapter
+            int spinnerPosition = dataAdapter.getPosition(userPersonalInfo.getString("branch"));
+            //select that particular branch from spinner
+            spinnerBranch.setSelection(spinnerPosition);
+        }
+
+        int year = userPersonalInfo.getInt("year");
+        RadioButton btn;
+        switch (year){
+            case 1:
+                btn = (RadioButton)findViewById(R.id.radioBtn1stYear);
+                btn.setChecked(true);
+                break;
+            case 2:
+                btn = (RadioButton)findViewById(R.id.radioBtn2ndYear);
+                btn.setChecked(true);
+                break;
+            case 3:
+                btn = (RadioButton)findViewById(R.id.radioBtn3rdYear);
+                btn.setChecked(true);
+                break;
+            case 4:
+                btn = (RadioButton)findViewById(R.id.radioBtn4thYear);
+                btn.setChecked(true);
+                break;
+        }
+        int dayScholar = userPersonalInfo.getInt("dayscholar");
+        RadioButton btnDaySc;
+        if(dayScholar==1){
+            btnDaySc = (RadioButton)findViewById(R.id.rbDaySch);
+            btnDaySc.setChecked(true);
+        }else{
+            btnDaySc = (RadioButton)findViewById(R.id.rbHosteler);
+            btnDaySc.setChecked(true);
+        }
+
+        JSONArray technologiesArray = jsonProfileData.getJSONArray("technologies");
+        if(technologiesArray.length()==1){
+            eTxtTech.setText(technologiesArray.getString(0));
+        }else if(technologiesArray.length()>1){
+            eTxtTech.setText(technologiesArray.getString(0));
+            for(int index=1;index<technologiesArray.length();index++) {
+
+
+                EditText eTxtTechMore = (EditText) getLayoutInflater().inflate(R.layout.edit_text_layout, null);
+                ImageButton btnDeleteTech = new ImageButton(this);
+                LinearLayout linearLayoutMoreTech = new LinearLayout(this);
+
+                btnDeleteTech.setImageResource(R.drawable.minus24);
+                btnDeleteTech.setBackgroundColor(Color.TRANSPARENT);
+
+                eTxtTechMore.setLayoutParams(eTxtTech.getLayoutParams());
+                btnDeleteTech.setLayoutParams(btnAddTech.getLayoutParams());
+                linearLayoutMoreTech.setLayoutParams(linLayoutHoriTech.getLayoutParams());
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.gravity = Gravity.CENTER_VERTICAL;
+                btnDeleteTech.setLayoutParams(layoutParams);
+
+                eTxtTechMore.setSingleLine();
+
+                eTxtTechMore.setText(technologiesArray.getString(index));
+
+                eTxtTechMore.setId(idTech);
+                btnDeleteTech.setId(idTech);
+                linearLayoutMoreTech.setId(idTech);
+                idTech++;
+
+                listRefTechETxt.add(eTxtTechMore);
+                listRefTechBtn.add(btnDeleteTech);
+                listRefTechLinLayout.add(linearLayoutMoreTech);
+
+                linearLayoutMoreTech.addView(eTxtTechMore);
+                linearLayoutMoreTech.addView(btnDeleteTech);
+
+
+                linearLayoutTech.addView(linearLayoutMoreTech);
+
+                if (!listRefTechBtn.isEmpty()) {
+                    for (int i = 0; i < listRefTechBtn.size(); i++) {
+
+                        listRefTechBtn.get(i).setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                int index = listRefTechBtn.indexOf((ImageButton) v);
+                                linearLayoutTech.removeView(listRefTechLinLayout.get(index));
+                                listRefTechETxt.remove(index);
+                                listRefTechBtn.remove(index);
+                                listRefTechLinLayout.remove(index);
+
+                            }
+                        });
+                    }
+                }
+
+            }
+        }
+
+        JSONArray languageArray = jsonProfileData.getJSONArray("languages");
+        if(languageArray.length()==1){
+            eTxtLang.setText(languageArray.getString(0));
+        }else if(languageArray.length()>1){
+            eTxtLang.setText(languageArray.getString(0));
+            for(int index=1;index<languageArray.length();index++){
+                EditText eTxtLangMore = (EditText) getLayoutInflater().inflate(R.layout.edit_text_layout, null);
+                ImageButton btnDeleteLang = new ImageButton(this);
+                LinearLayout linearLayoutMoreLang = new LinearLayout(this);
+
+                btnDeleteLang.setImageResource(R.drawable.minus24);
+                btnDeleteLang.setBackgroundColor(Color.TRANSPARENT);
+
+                eTxtLangMore.setLayoutParams(eTxtLang.getLayoutParams());
+                btnDeleteLang.setLayoutParams(btnAddLang.getLayoutParams());
+                linearLayoutMoreLang.setLayoutParams(linLayoutHoriLang.getLayoutParams());
+
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.gravity = Gravity.CENTER_VERTICAL;
+                btnDeleteLang.setLayoutParams(layoutParams);
+
+                eTxtLangMore.setSingleLine();
+
+                eTxtLangMore.setText(languageArray.getString(index));
+
+                eTxtLangMore.setId(idLang);
+                btnDeleteLang.setId(idLang);
+                linearLayoutMoreLang.setId(idLang);
+                idLang++;
+
+                listRefLangETxt.add(eTxtLangMore);
+                listRefLangBtn.add(btnDeleteLang);
+                listRefLangLinLayout.add(linearLayoutMoreLang);
+
+                linearLayoutMoreLang.addView(eTxtLangMore);
+                linearLayoutMoreLang.addView(btnDeleteLang);
+
+                linearLayoutLang.addView(linearLayoutMoreLang);
+
+                if (!listRefLangBtn.isEmpty()) {
+                    for (int i = 0; i < listRefLangBtn.size(); i++) {
+
+                        listRefLangBtn.get(i).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int index = listRefLangBtn.indexOf((ImageButton) v);
+                                linearLayoutLang.removeView(listRefLangLinLayout.get(index));
+                                listRefLangETxt.remove(index);
+                                listRefLangBtn.remove(index);
+                                listRefLangLinLayout.remove(index);
+
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        JSONArray projectArray = jsonProfileData.getJSONArray("projects");
+        Log.i("show",projectArray.toString());
+        if(projectArray.length()==1){
+            eTxtProjTitle.setText(projectArray.getJSONObject(0).getString("proj_title"));
+            eTxtProjURL.setText(projectArray.getJSONObject(0).getString("proj_url"));
+        }else if(projectArray.length()>1){
+            eTxtProjTitle.setText(projectArray.getJSONObject(0).getString("proj_title"));
+            eTxtProjURL.setText(projectArray.getJSONObject(0).getString("proj_url"));
+
+            for(int index=1;index<projectArray.length();index++){
+                JSONObject jsonObjectProject = projectArray.getJSONObject(index);
+
+                EditText eTxtProjTitleMore = (EditText) getLayoutInflater().inflate(R.layout.edit_text_layout, null);
+                EditText eTxtProjURLMore = (EditText) getLayoutInflater().inflate(R.layout.edit_text_layout, null);
+                ImageView imageView = new ImageView(this);
+                ImageButton btnDeleteProj = new ImageButton(this);
+                LinearLayout linearLayoutMoreProjTitle = new LinearLayout(this);
+                LinearLayout linearLayoutMoreProj = new LinearLayout(this);
+
+                btnDeleteProj.setImageResource(R.drawable.minus24);
+                btnDeleteProj.setBackgroundColor(Color.TRANSPARENT);
+
+                eTxtProjTitleMore.setLayoutParams(eTxtProjTitle.getLayoutParams());
+                eTxtProjURLMore.setLayoutParams(eTxtProjURL.getLayoutParams());
+                imageView.setLayoutParams(imgArrow.getLayoutParams());
+                btnDeleteProj.setLayoutParams(btnAddProj.getLayoutParams());
+                linearLayoutMoreProjTitle.setLayoutParams(linLayoutProjTitle.getLayoutParams());
+                linearLayoutMoreProj.setLayoutParams(linearLayoutProj.getLayoutParams());
+                imageView.setImageResource(R.drawable.arrow);
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.gravity = Gravity.CENTER_VERTICAL;
+                btnDeleteProj.setLayoutParams(layoutParams);
+
+                eTxtProjTitleMore.setSingleLine();
+                eTxtProjURLMore.setSingleLine();
+
+                eTxtProjTitleMore.setText(jsonObjectProject.getString("proj_title"));
+                eTxtProjURLMore.setText(jsonObjectProject.getString("proj_url"));
+
+                eTxtProjTitleMore.setId(idProj);
+                eTxtProjURLMore.setId(idProj);
+                btnDeleteProj.setId(idProj);
+                linearLayoutMoreProjTitle.setId(idProj);
+                idTech++;
+
+                listRefProjTitleETxt.add(eTxtProjTitleMore);
+                listRefProjURLETxt.add(eTxtProjURLMore);
+                listRefProjBtn.add(btnDeleteProj);
+                listRefProjTitleLinLayout.add(linearLayoutMoreProjTitle);
+
+                linearLayoutMoreProjTitle.addView(imageView);
+                linearLayoutMoreProjTitle.addView(eTxtProjTitleMore);
+                linearLayoutMoreProjTitle.addView(btnDeleteProj);
+
+                linearLayoutProj.addView(linearLayoutMoreProjTitle);
+                linearLayoutProj.addView(eTxtProjURLMore);
+
+                if (!listRefProjBtn.isEmpty()) {
+                    for (int i = 0; i < listRefProjBtn.size(); i++) {
+
+                        listRefProjBtn.get(i).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int index = listRefProjBtn.indexOf((ImageButton) v);
+                                linearLayoutProj.removeView(listRefProjTitleLinLayout.get(index));
+                                linearLayoutProj.removeView(listRefProjURLETxt.get(index));
+                                listRefProjTitleETxt.remove(index);
+                                listRefProjURLETxt.remove(index);
+                                listRefProjBtn.remove(index);
+                                listRefProjTitleLinLayout.remove(index);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    }
 
 
     void setSpinnerBranch() {
-        final String[] branches = {"Computer Science", "Information Technology", "Electrical Engineering", "Electronics & Communication", "Civil Engineering", "Mechanical Engineering"};
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, branches);
+        branches = new String[]{"Computer Science", "Information Technology", "Electrical Engineering", "Electronics & Communication", "Civil Engineering", "Mechanical Engineering"};
+        dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, branches);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBranch.setAdapter(dataAdapter);
 
-        spinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(),"Chosen ",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     void setDrawables() {
@@ -193,13 +422,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initViews();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            initViews();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -440,16 +686,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            final String username, password, email, phone, skype, github, branch;
+            String username, password=null, email, phone, skype, github, branch;
             int year = 0, daysch = 0;
             boolean flag = true;
 
+
             username = eTxtName.getText().toString().trim();
-            password = eTxtPassword.getText().toString().trim();
+            if(callingActivity!=102){
+                password = eTxtPassword.getText().toString().trim();
+            }
             email = eTxtEmail.getText().toString().trim();
             phone = eTxtPhone.getText().toString().trim();
             skype = eTxtSkype.getText().toString().trim();
             github = eTxtGithub.getText().toString().trim();
+
 
             if (username.isEmpty()) {
                 eTxtName.setError("Field can't be empty");
@@ -459,10 +709,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 eTxtEmail.setError("Invalid Email");
                 flag = false;
             }
-            if (password.isEmpty()) {
-                eTxtPassword.setError("Field can't be empty");
-                flag = false;
+            if(callingActivity!=102){
+                if (password.isEmpty()) {
+                    eTxtPassword.setError("Field can't be empty");
+                    flag = false;
+                }
             }
+
             if (!(phone.length() == 10)) {
                 eTxtPhone.setError("Invalid Phone number");
                 flag = false;
@@ -600,7 +853,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     jsonRequestObject.put("username", username);
                     jsonRequestObject.put("email", email);
-                    jsonRequestObject.put("password", password);
+                    if(callingActivity!=102){
+                        jsonRequestObject.put("password", password);
+                        //1-Admin 2-Access-given Users 3-Normal users
+                        jsonRequestObject.put("access", 3);
+                    }
+
                     jsonRequestObject.put("phone", phone);
                     jsonRequestObject.put("skype", skype);
                     jsonRequestObject.put("github", github);
@@ -634,42 +892,82 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             daysch = 0;
                             break;
                     }
-                    //1-Admin 2-Access-given Users 3-Normal users
-                    jsonRequestObject.put("access", 3);
+
                     jsonRequestObject.put("dayscholar", daysch);
                     jsonRequestObject.put("technologies", arrayTech);
                     jsonRequestObject.put("languages", arrayLang);
                     jsonRequestObject.put("projects", arrayProjects);
 
+                    if(callingActivity==102)
+                        jsonRequestObject.put("user_id", user_id);
+
+                    Log.i("show",jsonRequestObject.toString());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest objRequest = new JsonObjectRequest(Request.Method.POST, ConnectionUtil.PHP_REGISTER_URL, jsonRequestObject, new Response.Listener<JSONObject>() {
+                String url;
+                if(callingActivity==102){
+                    url = ConnectionUtil.PHP_EDIT_PROFILE_URL;
+                    Log.i("show","calling activity is : "+callingActivity);
+
+                }else{
+                    url = ConnectionUtil.PHP_REGISTER_URL;
+                }
+
+                Log.i("show",jsonRequestObject.toString());
+
+                final String email_final = email,password_final=password;
+                JsonObjectRequest objRequest = new JsonObjectRequest(Request.Method.POST,url , jsonRequestObject, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         //Boolean error=jsonObject.getBoolean("error");
-                        Log.i("show", jsonObject.toString());
                         try {
-                            String msg = jsonObject.getString("msg");
-                            int error = jsonObject.getInt("error");
+                            Log.i("show", "json object returned "+jsonObject.toString());
 
-                            switch (error) {
-                                case 0:
-                                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                                    Intent i = new Intent(RegisterActivity.this, StudentPanelActivity.class);
-                                    UserSessionManager session = new UserSessionManager(RegisterActivity.this);
-                                    session.createLoginSession(email,password,3,jsonObject.getInt("user_id"));
-                                    startActivity(i);
-                                    finish();
-                                    break;
-                                case 1:
-                                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                                    break;
-                                case 2:
-                                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                                    break;
+                            int error = jsonObject.getInt("error");
+                            if(callingActivity == 102){
+                                switch(error){
+                                    case 0:
+                                        ProfileActivity.reference.finish();
+                                        Intent i =new Intent(RegisterActivity.this,ProfileActivity.class);
+                                        if(!(user_id == StartActivity.user_id)){
+                                            i.putExtra("keyUserId",user_id);}
+                                        finish();
+                                        startActivity(i);
+                                        break;
+                                    case 1:
+                                        Toast.makeText(RegisterActivity.this,"Could not update profile, please try again later",Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 2:
+                                        Toast.makeText(RegisterActivity.this,"Could not update profile, please try again later",Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
+
+                            }else{
+                                String msg = jsonObject.getString("msg");
+                                Log.i("show","inside response of register");
+                                switch (error) {
+                                    case 0:
+                                        Log.i("show","in register, when user registers");
+                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                        Intent i = new Intent(RegisterActivity.this, StudentPanelActivity.class);
+                                        UserSessionManager session = new UserSessionManager(RegisterActivity.this);
+                                        session.createLoginSession(email_final,password_final,3,jsonObject.getInt("user_id"));
+                                        startActivity(i);
+                                        finish();
+                                        break;
+                                    case 1:
+                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                        break;
+                                    case 2:
+                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                        break;
+                                }
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -679,7 +977,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError volleyError) {
-                                Log.i("show", volleyError.toString());
+                                Log.i("show","error is: "+volleyError.toString());
                             }
                         }) {
                     @Override
@@ -694,12 +992,4 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
     };
-    @Override
-    public void onBackPressed() {
-
-        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
 }

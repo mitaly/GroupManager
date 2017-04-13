@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,7 +49,6 @@ public class ViewAllUsers extends AppCompatActivity {
 
     void initViews() {
 
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerAllUsers);
         eTxtSearch = (EditText) findViewById(R.id.eTxtSearch);
 
@@ -75,11 +76,38 @@ public class ViewAllUsers extends AppCompatActivity {
 
     }
 
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_users);
-        initViews();
+
+        if(StartActivity.access == 3){
+            setContentView(R.layout.no_access);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            setTitle("Members");
+
+        }else {
+            setContentView(R.layout.activity_view_all_users);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            setTitle("Members");
+            initViews();
+        }
     }
 
     Handler handler = new Handler(){

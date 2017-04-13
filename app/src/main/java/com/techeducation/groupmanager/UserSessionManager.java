@@ -28,13 +28,9 @@ public class UserSessionManager {
         this.context=context;
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME,PRIVATE_MODE);
         editor=sharedPreferences.edit();
-        editor.putString("mitaly","");
-        editor.commit();
-
     }
 
     public void createLoginSession(String email,String password,int access,int user_id){
-        Log.i("show","in create login access "+access);
         editor.putBoolean(IS_USER_LOGIN,true);
         editor.putString(KEY_EMAIL,email);
         editor.putString(KEY_PASSWORD,password);
@@ -46,21 +42,7 @@ public class UserSessionManager {
         StartActivity.user_id = user_id;
     }
 
-    public boolean isUserLoggedIn(){
-        return sharedPreferences.getBoolean(IS_USER_LOGIN,false);
-    }
-    public boolean checkLogin(){
-        if(!isUserLoggedIn()){
-            Intent i = new Intent(context,LoginActivity.class);
-            // Closing all the Activities from stack
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-            return true;
-        }
-        return false;
-    }
+
     public HashMap<String, String> getUserDetails(){
 
         //Use hashmap to store user credentials

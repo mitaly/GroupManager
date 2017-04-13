@@ -27,12 +27,10 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
 
     //MyViewHolders initializes the views in listIte
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        //RoundedImageView profileImg;
         TextView txtName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-           // profileImg=(RoundedImageView)itemView.findViewById(R.id.prPhotoAll);
             txtName=(TextView)itemView.findViewById(R.id.txtNameAll);
         }
     }

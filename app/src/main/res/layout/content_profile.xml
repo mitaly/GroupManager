@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,32 +24,24 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Personal Information"
+                    android:textColor="@color/colorAccent"
                     android:layout_margin="10dp"
-                    android:textSize="18sp"
-                    android:padding="10dp"
-                    android:layout_weight="0.9"
+                    android:textSize="19sp"
                     />
-                  <ToggleButton
-                      android:id="@+id/toggleSuspend"
-                      android:layout_width="wrap_content"
-                      android:layout_height="40dp"
-                      android:visibility="gone"
-                      android:textOff="Suspend"
-                      android:textOn="Suspended"
-                      android:textColor="@android:color/white"
-                      android:background="@drawable/toggle_drawable"
-                      android:layout_gravity="center"
-                      android:gravity="center"/>
-                </LinearLayout>
+                    <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1.4dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/colorAccent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -60,12 +53,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/user1"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/username"
-                        android:textSize="16dp"
+                        android:textSize="17sp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
                 </LinearLayout>
@@ -80,12 +73,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/email1"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/email"
-                        android:textSize="16dp"
+                        android:textSize="17sp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
                 </LinearLayout>
@@ -100,12 +93,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/phone1"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/phone"
-                        android:textSize="16dp"
+                        android:textSize="17sp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
                 </LinearLayout>
@@ -120,12 +113,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/skype1"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/skype"
-                        android:textSize="16dp"
+                        android:textSize="17sp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
                 </LinearLayout>
@@ -141,12 +134,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/github1"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/github"
-                        android:textSize="16dp"
+                        android:textSize="17sp"
                         android:layout_margin="8dp"
                         android:layout_weight="0.8"/>
                 </LinearLayout>
@@ -168,14 +161,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:textColor="@color/colorAccent"
                     android:text="Technologies Known"
-                    android:textSize="18sp"/>
+                    android:textSize="19sp"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1.4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/supportColor"/>
+                    android:background="@color/colorAccent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -202,15 +196,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
                     android:layout_margin="10dp"
                     android:text="Languages Known"
-                    android:textSize="18sp"/>
+                    android:textSize="19sp"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1.4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/supportColor"/>
+                    android:background="@color/colorAccent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -238,15 +233,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
                     android:layout_margin="10dp"
                     android:text="Project Details"
-                    android:textSize="18sp"/>
+                    android:textSize="19sp"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1.4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/supportColor"/>
+                    android:background="@color/colorAccent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -273,15 +269,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
                     android:layout_margin="10dp"
                     android:text="Other"
-                    android:textSize="18sp"/>
+                    android:textSize="19sp"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1.4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/supportColor"/>
+                    android:background="@color/colorAccent"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -292,13 +289,15 @@
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Branch"
+                       android:textSize="18sp"
+                       android:text="Branch : "
                        android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorTextEventList"
                         android:id="@+id/branch"
+                        android:textSize="17sp"
                         android:text="Branch name"
                         android:layout_weight="0.9"/>
 
@@ -314,13 +313,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Year  "
+                        android:text="Year :   "
+                        android:textSize="18sp"
                         android:layout_weight="0.1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorTextEventList"
                         android:id="@+id/year"
+                        android:textSize="17sp"
                         android:text="year"
                         android:layout_weight="0.9"/>
 
@@ -335,8 +336,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
                         android:layout_margin="8dp"
+                        android:textSize="18sp"
                         android:text="Are you a dayscholar?"
                         android:layout_weight="0.5"
                         />
@@ -345,7 +346,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-
                         android:layout_weight="0.5"
                         android:id="@+id/radioGrpDaySch"
                         android:weightSum="1">
@@ -353,6 +353,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Yes"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorTextEventList"
                             android:clickable="false"
                             android:buttonTint="@color/colorAccent"
                             android:id="@+id/DaySchYes"
@@ -363,16 +365,54 @@
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:text="No"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorTextEventList"
                             android:buttonTint="@color/colorAccent"
                             android:id="@+id/DaySchNo"
                             android:layout_weight="0.5"
                             />
                     </RadioGroup>
                 </LinearLayout>
-
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardViewSuspend"
+            android:visibility="gone"
+            android:layout_marginTop="15dp">
+            <ToggleButton
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:id="@+id/toggleSuspend"
+                android:textColor="@color/white"
+                android:textOff="@string/toggleSuspendOff"
+                android:textOn="@string/toggleSuspendOn"
+                android:gravity="center"
+                android:background="@drawable/toggle_drawable"/>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardViewAccess"
+            android:visibility="gone"
+            android:layout_marginTop="15dp">
+            <ToggleButton
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:id="@+id/toggleAccess"
+                android:textColor="@color/white"
+                android:textOff="@string/toggleAccessOff"
+                android:textOn="@string/toggleAccessOn"
+                android:gravity="center"
+                android:background="@drawable/toggle_drawable"/>
+        </android.support.v7.widget.CardView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+
+
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

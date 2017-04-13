@@ -9,7 +9,7 @@
         <item
             android:id="@+id/viewProfile"
             android:icon="@drawable/ic_menu_camera"
-            android:title="View Profile" />
+            android:title="My Profile" />
         <item
             android:id="@+id/viewMember"
             android:icon="@drawable/ic_menu_gallery"

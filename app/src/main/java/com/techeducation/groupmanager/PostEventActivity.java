@@ -2,23 +2,28 @@ package com.techeducation.groupmanager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class PostEventActivity extends AppCompatActivity {
-    Button btnChooseDate,btnChooseTime;
+    Button btnChooseDate,btnChooseTime,postEvent;
     TextView txtDate,txtTime;
     Calendar calendar;
-
 
     void initViews(){
 
@@ -27,6 +32,7 @@ public class PostEventActivity extends AppCompatActivity {
         btnChooseDate=(Button)findViewById(R.id.btnChooseDate);
         btnChooseTime=(Button)findViewById(R.id.btnChooseTime);
         txtTime=(TextView)findViewById(R.id.txtTime);
+        postEvent = (Button)findViewById(R.id.btnpost);
 
         initTimeAndDate();
 
@@ -34,7 +40,7 @@ public class PostEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new TimePickerDialog(PostEventActivity.this,time,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
-               }
+            }
         });
         btnChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,11 +49,41 @@ public class PostEventActivity extends AppCompatActivity {
 
             }
         });
+        postEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if(networkInfo != null && networkInfo.isConnectedOrConnecting()){
+                    //code to post event
+                } else{
+                    Toast.makeText(PostEventActivity.this, "Not Connected", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_event);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle("Post Event");
         initViews();
     }
     void  initTimeAndDate(){

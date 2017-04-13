@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -98,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 etxtpass.setText("");
                 etxtemail.setText("");
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.putExtra("callingActivity",101);
                 startActivity(intent);
 
                 break;
@@ -130,40 +132,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     try {
                         int status = jsonObject.getInt("error");
                         Log.i("show","status "+status);
-                        switch(status){
-                            case 0:
-                                Log.i("show","in switch status "+status);
-                                int access = jsonObject.getInt("access");
-                                int user_id = jsonObject.getInt("user_id");
-                                Log.i("show","before access "+access+" user_id "+user_id);
-                                session.createLoginSession(email,password,access,user_id);
-                                Log.i("show","access "+access+" user_id "+user_id);
-                                if(access==1){
-                                    Intent i = new Intent(getApplicationContext(), AdminActivity.class);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i);
-                                    finish();
-                                }
-                                else if(access==2 || access==3){
-                                    Intent i = new Intent(getApplicationContext(), StudentPanelActivity.class);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i);
-                                    finish();
-                                }
+                        if(jsonObject.getInt("suspend")==1){
+                            Toast.makeText(LoginActivity.this, "Your access is suspended by admin", Toast.LENGTH_SHORT).show();
+                        }else{
+                            switch(status){
+                                case 0:
+                                    Log.i("show","in switch status "+status);
+                                    int access = jsonObject.getInt("access");
+                                    int user_id = jsonObject.getInt("user_id");
+                                    Log.i("show","before access "+access+" user_id "+user_id);
+                                    session.createLoginSession(email,password,access,user_id);
+                                    Log.i("show","access "+access+" user_id "+user_id);
+                                    if(access==1){
+                                        Intent i = new Intent(getApplicationContext(), AdminActivity.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                    else if(access==2 || access==3){
+                                        Intent i = new Intent(getApplicationContext(), StudentPanelActivity.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(i);
+                                        finish();
+                                    }
 
-                                break;
-                            case 1:
-                                Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
-                                break;
-                            case 2:
-                                Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
-                                break;
-                            case 3:
-                                Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
-                                break;
+                                    break;
+                                case 1:
+                                    Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
+                                    break;
+                                case 2:
+                                    Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
+                                    break;
+                                case 3:
+                                    Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

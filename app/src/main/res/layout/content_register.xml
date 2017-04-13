@@ -38,18 +38,11 @@
                     android:background="@color/supportColor"
                     />
 
-                <com.techeducation.groupmanager.RoundedImageView
-                    android:id="@+id/prPhotoAll"
-                    android:layout_height="100dp"
-                    android:layout_width="100dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/grey"/>
                 <EditText
                     android:id="@+id/eTxtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:padding="5dp"
                     android:singleLine="true"
                     android:hint="Username"
