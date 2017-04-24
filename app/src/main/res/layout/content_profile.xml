@@ -7,10 +7,21 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.techeducation.groupmanager.ProfileActivity"
     tools:showIn="@layout/activity_profile">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center_vertical"
+        style="?android:attr/progressBarStyle"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/linLayoutProfile"
         android:orientation="vertical">
 
 
@@ -411,8 +422,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="80dp"/>
-
-
-
     </LinearLayout>
+</LinearLayout>
 </android.support.v4.widget.NestedScrollView>

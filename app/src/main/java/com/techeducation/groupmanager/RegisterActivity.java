@@ -420,6 +420,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         img.setBounds(0, 0, 40, 40);
         eTxtGithub.setCompoundDrawables(img, null, null, null);
 
+        img = this.getResources().getDrawable(R.drawable.password);
+        img.setBounds(0, 0, 40, 40);
+        eTxtPassword.setCompoundDrawables(img,null,null,null);
+
     }
 
 

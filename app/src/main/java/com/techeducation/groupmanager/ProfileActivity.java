@@ -1,7 +1,9 @@
 package com.techeducation.groupmanager;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -51,11 +54,15 @@ public class ProfileActivity extends AppCompatActivity {
     FloatingActionButton fab;
     JSONObject jsonObjectProfileData = null;
     CardView cardViewSuspend, cardViewAccess;
+    ProgressBar progressBar;
+    LinearLayout linearLayoutProfile;
 
     void initViews() {
+
         user_id = StartActivity.user_id;
         Intent rcv = getIntent();
         user_id_other = rcv.getIntExtra("keyUserId",0);
+
 
         LLTechKnown = (LinearLayout)findViewById(R.id.LLTechKnown);
         LLLangKnown = (LinearLayout)findViewById(R.id.LLLangKnown);
@@ -195,13 +202,22 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        reference = this;
-        initViews();
 
+
+        linearLayoutProfile = (LinearLayout)findViewById(R.id.linLayoutProfile);
+        linearLayoutProfile.setVisibility(View.GONE);
+
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        reference = this;
+
+        initViews();
 
     }
 
@@ -384,6 +400,10 @@ public class ProfileActivity extends AppCompatActivity {
                                     toggleAccess.setChecked(false);
                             }
 
+                            progressBar.setVisibility(View.GONE);
+                            linearLayoutProfile.setVisibility(View.VISIBLE);
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -395,6 +415,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
                 AppController.getInstance().addToRequestQueue(jsonObjectRequest, "json_obj_req");
+
 
 
 

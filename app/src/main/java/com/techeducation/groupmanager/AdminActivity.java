@@ -21,6 +21,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,8 @@ public class AdminActivity extends AppCompatActivity
     List recentUsersDataList;
     CardView cardViewRecentUsers;
     AllUsersAdapter adapter;
+    ProgressBar progressBar;
+    LinearLayout linearLayoutAdmin;
 
     void initViews(){
         txtUserStats = (TextView)findViewById(R.id.userStats);
@@ -70,6 +74,10 @@ public class AdminActivity extends AppCompatActivity
         setContentView(R.layout.activity_admin);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        linearLayoutAdmin = (LinearLayout)findViewById(R.id.linLayoutAdmin);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        linearLayoutAdmin.setVisibility(View.GONE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -182,6 +190,9 @@ public class AdminActivity extends AppCompatActivity
                                         }
                                     })
                             );
+
+                            progressBar.setVisibility(View.GONE);
+                            linearLayoutAdmin.setVisibility(View.VISIBLE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),"Some Connectivity Error",Toast.LENGTH_LONG).show();

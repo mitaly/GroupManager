@@ -63,7 +63,7 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
     }
 
     //Filters the list
-    public void listUpdate(String str){
+    public boolean listUpdate(String str){
         allUsersBeenList.clear();
         if(str.isEmpty()){
             allUsersBeenList.addAll(tempList);
@@ -76,5 +76,9 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
             }
         }
         notifyDataSetChanged();
+        if(allUsersBeenList.size()==0)
+            return false;
+        else
+            return true;
     }
 }
