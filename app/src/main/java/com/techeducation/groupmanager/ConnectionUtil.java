@@ -15,4 +15,7 @@ public class ConnectionUtil {
     public static final String PHP_GET_SUSPEND_VALUE_URL = "http://yourtube.in/mitalyhead/get_suspend_value.php";
     public static final String PHP_CHANGE_ACCESS_URL = "http://yourtube.in/mitalyhead/change_access.php";
     public static final String PHP_GET_LOGIN_VALUES_URL = "http://yourtube.in/mitalyhead/get_login_values.php";
+    public static final String PHP_POST_EVENT_URL = "http://yourtube.in/mitalyhead/post_event.php";
+    public static final String PHP_FETCH_FEED = "http://yourtube.in/mitalyhead/fetch_event.php";
+    public static final String PHP_FETCH_EVENTS_HISTORY = "http://yourtube.in/mitalyhead/fetch_events_history.php";
 }

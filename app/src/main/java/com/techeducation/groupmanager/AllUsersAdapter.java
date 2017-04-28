@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
         public MyViewHolder(View itemView) {
             super(itemView);
             txtName=(TextView)itemView.findViewById(R.id.txtNameAll);
+            Log.i("showObj3","view holder recent+ "+itemView.toString());
         }
     }
 
@@ -39,6 +41,7 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
         this.allUsersBeenList = allUsersBeenList;
         tempList = new ArrayList<>();
         tempList.addAll(this.allUsersBeenList);
+        Log.i("showObj2","list of recent "+allUsersBeenList.toString());
     }
 
     //onCreateViewHolder inflates the listItem
@@ -53,12 +56,15 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         AllUsersBean allUsersBean = allUsersBeenList.get(position);
        // holder.profileImg.setImageResource(allUsersBean.getProfilePhoto());
+        Log.i("showobj2","recent "+allUsersBean.toString());
         holder.txtName.setText(allUsersBean.getusername());
     }
 
     //Get size of List
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
+        Log.i("showObj2","get item count: "+allUsersBeenList.size());
         return allUsersBeenList.size();
     }
 

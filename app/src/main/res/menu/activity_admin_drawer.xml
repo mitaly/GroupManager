@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/postEvent"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/postevent"
             android:title="Post Event" />
         <item
             android:id="@+id/viewProfile"

@@ -30,6 +30,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -44,13 +45,15 @@ import java.util.Map;
 public class AdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,rvEventAdmin;
     TextView txtUserStats,txtRecentUsers;
     List recentUsersDataList;
+    ArrayList<EventsFeed> eventsFeedList;
     CardView cardViewRecentUsers;
     AllUsersAdapter adapter;
     ProgressBar progressBar;
     LinearLayout linearLayoutAdmin;
+    EventsAdapter eventsAdapter;
 
     void initViews(){
         txtUserStats = (TextView)findViewById(R.id.userStats);
@@ -59,6 +62,12 @@ public class AdminActivity extends AppCompatActivity
 
         //user stats
         handler.sendEmptyMessage(100);
+
+        rvEventAdmin = (RecyclerView)findViewById(R.id.rvEventsAdmin);
+        //fetch events feed
+        handler.sendEmptyMessage(300);
+        rvEventAdmin.setLayoutManager(new LinearLayoutManager(this));
+        rvEventAdmin.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerRecentUsers);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -113,7 +122,7 @@ public class AdminActivity extends AppCompatActivity
             Intent i = new Intent(AdminActivity.this,AddUsersActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.logout) {
+        }else if (id == R.id.logout) {
             UserSessionManager sessionManager = new UserSessionManager(getApplicationContext());
             sessionManager.logoutUser();
             finish();
@@ -161,7 +170,6 @@ public class AdminActivity extends AppCompatActivity
                     @Override
                     public void onResponse(String s) {
                         try {
-
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray userArray = jsonObject.getJSONArray("userArray");
 
@@ -171,9 +179,11 @@ public class AdminActivity extends AppCompatActivity
                                 JSONObject jsonObject1 = userArray.getJSONObject(i);
                                 recentUsersDataList.add(new AllUsersBean(jsonObject1.getInt("user_id"),jsonObject1.getString("username")));
 
-                                adapter = new AllUsersAdapter(recentUsersDataList);
-                                recyclerView.setAdapter(adapter);
+
                             }
+
+                            adapter = new AllUsersAdapter(recentUsersDataList);
+                            recyclerView.setAdapter(adapter);
 
                             recyclerView.addOnItemTouchListener(
                                     new RecyclerItemClickListener(getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -216,6 +226,76 @@ public class AdminActivity extends AppCompatActivity
 
                 AppController.getInstance().addToRequestQueue(stringRequest, "json_obj_req");
 
+            } else if(msg.what == 300) {
+
+                StringRequest request = new StringRequest(Request.Method.POST, ConnectionUtil.PHP_FETCH_FEED, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            JSONObject object = new JSONObject(response);
+                            Log.i("showobj","admin object "+object.toString());
+                            if(object.getInt("error") == 1){
+                                Toast.makeText(AdminActivity.this,object.getString("msg"),Toast.LENGTH_SHORT).show();
+                            } else {
+                                JSONArray eventsArr = object.getJSONArray("events");
+                                eventsFeedList = new ArrayList<>();
+                                Log.i("showobj","admin array "+eventsArr.toString());
+                                Log.i("showobj","admin array length"+eventsArr.length());
+
+                                for (int i = 0; i < eventsArr.length(); i++) {
+                                    Log.i("showobj","first "+i);
+
+                                    JSONObject jsonObject = eventsArr.getJSONObject(i);
+                                    Log.i("showobj","second "+i);
+                                    Log.i("showobj","admin objects "+jsonObject.toString());
+
+//                                    int id = jsonObject.getInt("id");
+//                                    Log.i("show","id- "+id);
+                                    String title = jsonObject.getString("title");
+                                    Log.i("show","title- "+title);
+                                    String venue = jsonObject.getString("venue");
+                                    Log.i("show","venue- "+venue);
+                                    String date = jsonObject.getString("date");
+                                    Log.i("show","date- "+date);
+                                    String time = jsonObject.getString("time");
+                                    Log.i("show","time- "+time);
+                                    String desc = jsonObject.getString("description");
+                                    Log.i("show","desc- "+desc);
+                                    Log.i("showobj","events: "+" "+title+" "+venue+" "+date+" "+time+" "+desc+" ");
+
+
+
+                                    eventsFeedList.add(new EventsFeed(jsonObject.getInt("id"), jsonObject.getString("title"), jsonObject.getString("venue"), jsonObject.getString("date"), jsonObject.getString("time"), jsonObject.getString("description")));
+
+                                    Log.i("showobj","last "+i);
+                                }
+                                Log.i("showobj","admin list events "+eventsFeedList.toString());
+                                eventsAdapter = new EventsAdapter(eventsFeedList);
+                                rvEventAdmin.setAdapter(eventsAdapter);
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("event", error.toString());
+                        Toast.makeText(getApplicationContext(), "Some Connectivity Error", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json; charset=utf-8");
+                        return headers;
+                    }
+                };
+
+                AppController.getInstance().addToRequestQueue(request, "json_obj_req");
             }
 
         }
@@ -234,7 +314,6 @@ public class AdminActivity extends AppCompatActivity
             finish();
             System.exit(0);
         }
-
 
     }
 }

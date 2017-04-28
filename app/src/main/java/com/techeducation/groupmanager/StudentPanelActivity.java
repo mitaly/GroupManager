@@ -49,15 +49,17 @@ import java.util.Map;
 public class StudentPanelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView, rvEventStudents;
     UserSessionManager session;
     TextView txtUserStats,txtRecentUsers;
     List recentUsersDataList;
+    ArrayList<EventsFeed> eventsFeedList;
     CardView cardViewRecentUsers;
     AllUsersAdapter adapter;
     LinearLayout noNetLayout, netAvailableLayout;
     Button tryAgain;
     Intent intent;
+    EventsAdapter eventsAdapter;
 
     void initViews(){
         txtUserStats = (TextView)findViewById(R.id.userStats);
@@ -67,6 +69,12 @@ public class StudentPanelActivity extends AppCompatActivity
         intent = new Intent(StudentPanelActivity.this, MyService.class);
         //user stats
         handler.sendEmptyMessage(100);
+
+        rvEventStudents = (RecyclerView)findViewById(R.id.rvEventsStudents);
+        //fetch events feed
+        handler.sendEmptyMessage(400);
+        rvEventStudents.setLayoutManager(new LinearLayoutManager(this));
+        rvEventStudents.setItemAnimator(new DefaultItemAnimator());
 
 
         if (StartActivity.access == 3) {
@@ -268,6 +276,49 @@ public class StudentPanelActivity extends AppCompatActivity
             else if(msg.what==300){
                 Intent i = new Intent(StudentPanelActivity.this,ViewAllUsers.class);
                 startActivity(i);
+            } else if(msg.what == 400) {
+
+                StringRequest request = new StringRequest(Request.Method.POST, ConnectionUtil.PHP_FETCH_FEED, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            JSONObject object = new JSONObject(response);
+                            if(object.getInt("error") == 1){
+                                Toast.makeText(StudentPanelActivity.this,object.getString("msg"),Toast.LENGTH_SHORT).show();
+                            } else {
+                                JSONArray eventsArr = object.getJSONArray("events");
+                                eventsFeedList = new ArrayList<>();
+
+                                for (int i = 0; i < eventsArr.length(); i++) {
+                                    JSONObject jsonObject = eventsArr.getJSONObject(i);
+                                    eventsFeedList.add(new EventsFeed(jsonObject.getInt("id"), jsonObject.getString("title"), jsonObject.getString("venue"), jsonObject.getString("date"), jsonObject.getString("time"), jsonObject.getString("description")));
+                                    eventsAdapter = new EventsAdapter(eventsFeedList);
+                                    rvEventStudents.setAdapter(eventsAdapter);
+                                }
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("event", error.toString());
+                        Toast.makeText(getApplicationContext(), "Some Connectivity Error", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json; charset=utf-8");
+                        return headers;
+                    }
+                };
+
+                AppController.getInstance().addToRequestQueue(request, "json_obj_req");
             }
         }
     };
