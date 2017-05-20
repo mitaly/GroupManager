@@ -48,12 +48,13 @@ public class AdminActivity extends AppCompatActivity
     RecyclerView recyclerView,rvEventAdmin;
     TextView txtUserStats,txtRecentUsers;
     List recentUsersDataList;
-    ArrayList<EventsFeed> eventsFeedList;
+    List eventsFeedList;
     CardView cardViewRecentUsers;
     AllUsersAdapter adapter;
     ProgressBar progressBar;
     LinearLayout linearLayoutAdmin;
     EventsAdapter eventsAdapter;
+    RecyclerView.LayoutManager mLayoutManager, mLayoutManager1;
 
     void initViews(){
         txtUserStats = (TextView)findViewById(R.id.userStats);
@@ -64,13 +65,15 @@ public class AdminActivity extends AppCompatActivity
         handler.sendEmptyMessage(100);
 
         rvEventAdmin = (RecyclerView)findViewById(R.id.rvEventsAdmin);
+        mLayoutManager1 = new LinearLayoutManager(this);
+        rvEventAdmin.setLayoutManager(mLayoutManager1);
+        rvEventAdmin.setItemAnimator(new DefaultItemAnimator());
+        rvEventAdmin.setHasFixedSize(true);
         //fetch events feed
         handler.sendEmptyMessage(300);
-        rvEventAdmin.setLayoutManager(new LinearLayoutManager(this));
-        rvEventAdmin.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerRecentUsers);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //recent user list
@@ -109,6 +112,10 @@ public class AdminActivity extends AppCompatActivity
         if(id==R.id.postEvent){
             Intent i = new Intent(AdminActivity.this,PostEventActivity.class);
             startActivity(i);
+        }else if (id == R.id.evAdminHistory) {
+            Intent i =new Intent(AdminActivity.this,EventsHistoryActivity.class);
+            startActivity(i);
+
         }
         else if (id == R.id.viewProfile) {
             Intent i =new Intent(AdminActivity.this,ProfileActivity.class);
@@ -249,22 +256,6 @@ public class AdminActivity extends AppCompatActivity
                                     JSONObject jsonObject = eventsArr.getJSONObject(i);
                                     Log.i("showobj","second "+i);
                                     Log.i("showobj","admin objects "+jsonObject.toString());
-
-//                                    int id = jsonObject.getInt("id");
-//                                    Log.i("show","id- "+id);
-                                    String title = jsonObject.getString("title");
-                                    Log.i("show","title- "+title);
-                                    String venue = jsonObject.getString("venue");
-                                    Log.i("show","venue- "+venue);
-                                    String date = jsonObject.getString("date");
-                                    Log.i("show","date- "+date);
-                                    String time = jsonObject.getString("time");
-                                    Log.i("show","time- "+time);
-                                    String desc = jsonObject.getString("description");
-                                    Log.i("show","desc- "+desc);
-                                    Log.i("showobj","events: "+" "+title+" "+venue+" "+date+" "+time+" "+desc+" ");
-
-
 
                                     eventsFeedList.add(new EventsFeed(jsonObject.getInt("id"), jsonObject.getString("title"), jsonObject.getString("venue"), jsonObject.getString("date"), jsonObject.getString("time"), jsonObject.getString("description")));
 

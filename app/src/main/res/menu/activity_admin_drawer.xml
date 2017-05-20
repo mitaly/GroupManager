@@ -7,6 +7,10 @@
             android:icon="@drawable/postevent"
             android:title="Post Event" />
         <item
+            android:id="@+id/evAdminHistory"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Events History" />
+        <item
             android:id="@+id/viewProfile"
             android:icon="@drawable/ic_menu_camera"
             android:title="My Profile" />

@@ -3,6 +3,10 @@
 
     <group>
         <item
+            android:id="@+id/evUserHistory"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Events History" />
+        <item
             android:id="@+id/viewUsers"
             android:icon="@drawable/ic_menu_camera"
             android:title="View Users" />

@@ -55,7 +55,9 @@
             android:name=".StudentPanelActivity"
             android:label="@string/title_activity_student_panel"
             android:theme="@style/AppTheme" />
-        <activity android:name=".EventsHistoryActivity"></activity>
+        <activity android:name=".EventsHistoryActivity"
+            android:label="@string/events_history"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

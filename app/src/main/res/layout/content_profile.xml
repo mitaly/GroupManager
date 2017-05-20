@@ -61,12 +61,12 @@
                     android:layout_marginTop="5dp"
                     android:weightSum="1">
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/user1"
-                        android:layout_weight="0.1"/>
+                        android:layout_weight="0.2"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/username"
                         android:textSize="17sp"
@@ -81,12 +81,12 @@
                     android:layout_marginTop="5dp"
                     android:weightSum="1">
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/email1"
-                        android:layout_weight="0.1"/>
+                        android:layout_weight="0.2"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/email"
                         android:textSize="17sp"
@@ -101,12 +101,12 @@
                     android:layout_marginTop="5dp"
                     android:weightSum="1">
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/phone1"
-                        android:layout_weight="0.1"/>
+                        android:layout_weight="0.2"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/phone"
                         android:textSize="17sp"
@@ -121,12 +121,12 @@
                     android:orientation="horizontal"
                     android:weightSum="1">
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/skype1"
-                        android:layout_weight="0.1"/>
+                        android:layout_weight="0.2"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/skype"
                         android:textSize="17sp"
@@ -142,12 +142,12 @@
                     android:orientation="horizontal"
                     android:weightSum="1">
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/github1"
-                        android:layout_weight="0.1"/>
+                        android:layout_weight="0.2"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/github"
                         android:textSize="17sp"

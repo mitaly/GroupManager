@@ -71,10 +71,11 @@ public class StudentPanelActivity extends AppCompatActivity
         handler.sendEmptyMessage(100);
 
         rvEventStudents = (RecyclerView)findViewById(R.id.rvEventsStudents);
-        //fetch events feed
-        handler.sendEmptyMessage(400);
         rvEventStudents.setLayoutManager(new LinearLayoutManager(this));
         rvEventStudents.setItemAnimator(new DefaultItemAnimator());
+        rvEventStudents.setHasFixedSize(true);
+        //fetch events feed
+        handler.sendEmptyMessage(400);
 
 
         if (StartActivity.access == 3) {
@@ -115,7 +116,6 @@ public class StudentPanelActivity extends AppCompatActivity
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            Toast.makeText(StudentPanelActivity.this, "Connected", Toast.LENGTH_SHORT).show();
             netAvailableLayout.setVisibility(View.VISIBLE);
             noNetLayout.setVisibility(View.GONE);
             initViews();
@@ -156,6 +156,10 @@ public class StudentPanelActivity extends AppCompatActivity
 
         if (id == R.id.viewUsers) {
             handler.sendEmptyMessage(300);
+
+        } else if (id == R.id.evUserHistory) {
+            Intent i =new Intent(StudentPanelActivity.this,EventsHistoryActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.myProfile) {
             Intent i =new Intent(StudentPanelActivity.this,ProfileActivity.class);
@@ -293,10 +297,9 @@ public class StudentPanelActivity extends AppCompatActivity
                                 for (int i = 0; i < eventsArr.length(); i++) {
                                     JSONObject jsonObject = eventsArr.getJSONObject(i);
                                     eventsFeedList.add(new EventsFeed(jsonObject.getInt("id"), jsonObject.getString("title"), jsonObject.getString("venue"), jsonObject.getString("date"), jsonObject.getString("time"), jsonObject.getString("description")));
-                                    eventsAdapter = new EventsAdapter(eventsFeedList);
-                                    rvEventStudents.setAdapter(eventsAdapter);
                                 }
-
+                                eventsAdapter = new EventsAdapter(eventsFeedList);
+                                rvEventStudents.setAdapter(eventsAdapter);
                             }
 
                         } catch (JSONException e) {

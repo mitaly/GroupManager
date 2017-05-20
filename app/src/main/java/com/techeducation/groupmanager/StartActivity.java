@@ -90,40 +90,40 @@ public class StartActivity extends AppCompatActivity {
 
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==100){
-                Log.i("show","in handler of Start Activity. user_id: "+user_id);
+        if(msg.what==100){
+            Log.i("show","in handler of Start Activity. user_id: "+user_id);
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, ConnectionUtil.PHP_GET_LOGIN_VALUES_URL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if(jsonObject.getInt("error")==0){
-                                suspend = jsonObject.getInt("suspend");
-                                access = jsonObject.getInt("access");
-                                Log.i("show","suspend: "+suspend+" access: "+access+" in start activity");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, ConnectionUtil.PHP_GET_LOGIN_VALUES_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if(jsonObject.getInt("error")==0){
+                            suspend = jsonObject.getInt("suspend");
+                            access = jsonObject.getInt("access");
+                            Log.i("show","suspend: "+suspend+" access: "+access+" in start activity");
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                            Log.i("show","in error repsonse "+error);
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> params = new HashMap<>();
-                        params.put("user_id", String.valueOf(user_id));
-                        return params;
-                    }
-                };
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                        Log.i("show","in error repsonse "+error);
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("user_id", String.valueOf(user_id));
+                    return params;
+                }
+            };
 
-                AppController.getInstance().addToRequestQueue(stringRequest,"json_obj_req");
-            }
+            AppController.getInstance().addToRequestQueue(stringRequest,"json_obj_req");
+        }
         }
     };
 }
